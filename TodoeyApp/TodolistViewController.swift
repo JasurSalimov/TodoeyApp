@@ -10,12 +10,11 @@ import UIKit
 class TodolistViewController: UITableViewController {
     
     var customData: [String] = []
+    
     let defaults = UserDefaults.standard
-    var boolArray: [Bool] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        customData = defaults.stringArray(forKey: "ArrayOfItems") ?? [""]
-        print(defaults.stringArray(forKey: "ArrayOfItems")!)
+        //customData = defaults.stringArray(forKey: "ArrayOfItems") ?? [""]
     }
     
     
@@ -26,7 +25,15 @@ class TodolistViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath)
-        cell.textLabel?.text = customData[indexPath.row]
+        if(Constants.id[indexPath.row] == true){
+            cell.textLabel?.text = customData[indexPath.row]
+            cell.accessoryType = .checkmark
+        }
+        else{
+            cell.textLabel?.text = customData[indexPath.row]
+            cell.accessoryType = .none
+        }
+        
         return cell
     }
    
@@ -35,12 +42,12 @@ class TodolistViewController: UITableViewController {
         print(customData[indexPath.row])
         
         if(tableView.cellForRow(at: indexPath)?.accessoryType != .checkmark){
-            boolArray[indexPath.row] = true
+            Constants.id[indexPath.row] = true
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
         else{
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            boolArray[indexPath.row] = false
+            Constants.id[indexPath.row] = false
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -60,6 +67,7 @@ class TodolistViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { action in
             print(addTextField.text ?? "" )
             self.customData.append(addTextField.text ?? "")
+            Constants.id.append(false)
             self.defaults.set(self.customData, forKey: "ArrayOfItems")
             self.tableView.reloadData()
             print(self.customData)

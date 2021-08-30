@@ -9,7 +9,7 @@ import Foundation
 
 struct Constants{
     
-    
+    static var id: [Bool] = []
     
     
 }
