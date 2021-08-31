@@ -8,8 +8,7 @@
 import Foundation
 
 struct Constants{
-    
-    static var id: [Bool] = []
-    
+    static var customData: [String] = []
+    static var customDone: [String] = []
     
 }
