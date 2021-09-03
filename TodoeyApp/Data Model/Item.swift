@@ -2,16 +2,15 @@
 //  Item.swift
 //  TodoeyApp
 //
-//  Created by Jasur Salimov on 8/31/21.
+//  Created by Jasur Salimov on 9/4/21.
 //
 
 import Foundation
+import RealmSwift
 
-class Item: Encodable, Decodable{
-    var title: String = ""
-    var done: String = ""
-    init(title: String){
-        self.title = title
-    }
+class Item: Object{
+   @objc dynamic var title: String = ""
+   @objc dynamic var done: Bool = false
+    var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
     
 }
