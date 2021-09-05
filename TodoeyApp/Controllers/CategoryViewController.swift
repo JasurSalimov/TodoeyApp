@@ -17,7 +17,6 @@ class CategoryViewController: UITableViewController {
         loadCategories()
             
         }
-  
 }
 //MARK: - TableView Delegate methods
 extension CategoryViewController{
@@ -31,12 +30,8 @@ extension CategoryViewController{
         }
     }
 }
-
-
-
 //MARK: - Add button pressed
 extension CategoryViewController{
-    
     @IBAction func barButtonPressed(_ sender: UIBarButtonItem) {
         var addTextField = UITextField()
         let alert = UIAlertController(title: "Add new category", message: "", preferredStyle: .alert)
@@ -44,7 +39,6 @@ extension CategoryViewController{
             textField.placeholder = "Write new category .."
             addTextField = textField
         }
-        
         let action = UIAlertAction(title: "Add category", style: .default) { action in
             let newCategory = Category()
             newCategory.name = addTextField.text!
@@ -53,15 +47,8 @@ extension CategoryViewController{
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-    
-        
     }
-    
 }
-
-
-
-
 //MARK: - Data Source for tableview
 extension CategoryViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,28 +59,21 @@ extension CategoryViewController{
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No Cattegories added here"
         return cell
     }
-    
-    
 }
-
 //MARK: - Core Data actions
 extension CategoryViewController{
     func loadCategories(){
         self.categories = realm.objects(Category.self)
         tableView.reloadData()
     }
-   
-    
     func saveCategories(with category: Category){
         do{
             try realm.write{
                 realm.add(category)
             }
-            
         }
         catch{
             print(error)
         }
     }
-    
 }
