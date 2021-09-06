@@ -6,8 +6,9 @@
 //
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
-class TodolistViewController: UITableViewController {
+class TodolistViewController: SwipeTableViewController {
     @IBOutlet weak var searchBarOutlet: UISearchBar!
     var todoItems: Results<Item>?
     let realm = try! Realm()
@@ -21,6 +22,16 @@ class TodolistViewController: UITableViewController {
         loadItems()
         self.searchBarOutlet.delegate = self
     }
+    //Delete Data From Swipe
+    override func updateModel(at indexPath: IndexPath){
+        if let item = self.todoItems?[indexPath.row]{
+        do{
+            try! self.realm.write {
+                self.realm.delete(item)
+            }
+        }
+        }
+    }
 }
 //MARK: - TableView datasource methods
 extension TodolistViewController{
@@ -30,11 +41,10 @@ extension TodolistViewController{
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath)
-        
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         if let item = todoItems?[indexPath.row]{
             cell.textLabel?.text = item.title
-            
+
             if(item.done == true){
                 cell.accessoryType = .checkmark
             }
@@ -44,7 +54,6 @@ extension TodolistViewController{
         }else{
             cell.textLabel?.text = "No items added"
         }
-        
         return cell
     }
 }

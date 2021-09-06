@@ -8,6 +8,6 @@ target 'TodoeyApp' do
 
   # Pods for TodoeyApp
 # pod for my todolist app project
-
+pod 'SwipeCellKit'
 pod 'RealmSwift', '~>10'
 end
